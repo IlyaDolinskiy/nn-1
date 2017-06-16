@@ -1,0 +1,43 @@
+version: '3'
+services:
+  nginx:
+    image: nginx
+    links:
+      - node1:node1
+      - worker1:worker1
+    ports:
+      - "${MAIN_PORT:-3001}:80"
+    volumes:
+      - "./nginx/nginx.conf:/etc/nginx/nginx.conf"
+      - "/nginx_cache"
+      - "./static:/static:ro"
+    restart: unless-stopped
+  node1:
+    build: ./app
+    ports:
+      - "8080"
+    volumes:
+      - "./app:/app:rw"
+      - "./static:/static:rw"
+      - "/app/node_modules"
+      - "./persistence:/app/persistence"
+    restart: unless-stopped
+    links:
+      - mongo
+    environment:
+      - NODE_ENV
+  worker1:
+    build: ./worker
+    ports:
+      - "${WORKER_PORT:-3002}:80"
+    volumes:
+      - "./worker:/worker:rw"
+      - "/worker/node_modules"
+    restart: unless-stopped
+    links:
+      - node1
+  mongo:
+    image: mongo
+    volumes:
+      - "./persistence/mongo:/data/db"
+    restart: unless-stopped

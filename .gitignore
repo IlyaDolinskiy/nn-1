@@ -1,0 +1,5 @@
+app/node_modules/
+worker/node_modules/
+worker/persistence/
+app/persistence/
+persistence/

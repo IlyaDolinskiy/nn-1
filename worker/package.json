@@ -1,0 +1,15 @@
+{
+  "name": "worker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon /worker/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ivanov Dmitry",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.3"
+  }
+}
